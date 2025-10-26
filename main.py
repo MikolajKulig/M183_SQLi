@@ -1,7 +1,12 @@
 from fastapi import FastAPI
-from db import get_users
+from db import get_users, insert_user
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class UserCreate(BaseModel):
+    first_name: str
+
 
 @app.get("/test")
 def helloWorld():
@@ -10,6 +15,12 @@ def helloWorld():
 @app.get("/users")
 def getUsers():
     return get_users()
+
+@app.post("/users", status_code=201)
+def create_user(payload: UserCreate):
+    insert_user(payload.first_name)
+    return {"first_name": payload.first_name}
+
 
 if __name__ == "__main__":
     import uvicorn
