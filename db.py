@@ -1,0 +1,19 @@
+import psycopg2
+
+def get_conn():
+    return psycopg2.connect(
+        dbname="m183",
+        user="postgres",
+        password="mysecretpassword",
+        host="localhost",
+        port="5432"
+    )
+
+def get_users():
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id, first_name FROM users;")
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+    return [{"id": r[0], "name": r[1]} for r in rows]
