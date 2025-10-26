@@ -1,12 +1,17 @@
+import os
 import psycopg2
 
+
 def get_conn():
+    # Keep DB name/user/host/port hard-coded as before, but read the password
+    # from the environment variable DB_PASSWORD if present.
+    password = os.environ.get("DB_PASSWORD", "1506lucius")
     return psycopg2.connect(
         dbname="m183",
         user="postgres",
-        password="mysecretpassword",
+        password=password,
         host="localhost",
-        port="5432"
+        port="5432",
     )
 
 def get_users():
