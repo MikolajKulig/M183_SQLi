@@ -22,3 +22,14 @@ def get_users():
     cur.close()
     conn.close()
     return [{"id": r[0], "name": r[1]} for r in rows]
+
+def insert_user(first_name: str):
+
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute(f"INSERT INTO users (first_name) VALUES (\'{first_name}\')")
+
+    conn.commit()  
+    cur.close()
+    conn.close()
