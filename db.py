@@ -19,7 +19,6 @@ def get_users():
     return [{"id": r[0], "name": r[1]} for r in rows]
 
 def insert_user(first_name: str):
-
     conn = get_conn()
     cur = conn.cursor()
 
