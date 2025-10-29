@@ -16,6 +16,15 @@ def get_conn():
         port="5432",
     )
 
+def update_user(user_id: int, new_name: str):
+    conn = get_conn()
+    cur = conn.cursor()
+    # VULNERABLE: Direct string concatenation
+    cur.execute(f"UPDATE users SET first_name = '{new_name}' WHERE id = {user_id}")
+    conn.commit()
+    cur.close()
+    conn.close()
+
 
 def get_users():
     conn = get_conn()

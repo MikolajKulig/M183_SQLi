@@ -8,6 +8,49 @@
 	},
 	"item": [
 		{
+			"name": "Drop Table Attack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Table should be dropped\", function() {",
+							"    // The request might fail after dropping the table, which is expected",
+							"    // So we don't test the response code",
+							"    pm.expect(true).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": 1,\r\n    \"new_name\": \"x'; DROP TABLE users CASCADE; --\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users"
+					]
+				},
+				"description": "This request will attempt to drop the users table via SQL injection"
+			},
+			"response": []
+		},
+		{
 			"name": "SQL Injection",
 			"event": [
 				{
