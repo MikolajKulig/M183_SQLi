@@ -42,7 +42,6 @@ def get_user_by_id(user_id: str):
 def get_user_by_id(user_id: int):
     return get_users_by_id_1(user_id)
 
-
 @app.get("/users-2/{user_id}")
 def get_user_by_id(user_id: int):
     return get_users_by_id_2(user_id)
