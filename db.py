@@ -25,21 +25,20 @@ def get_users():
     return [{"id": r[0], "first_name": r[1]} for r in rows]
 
 
-def insert_user(first_name: str):
+def insert_user_0(first_name: str):
     conn = get_conn()
     cur = conn.cursor()
-    # Use parameterized query to avoid SQL injection
-    cur.execute("INSERT INTO users (first_name) VALUES (" + first_name + ")")
+    cur.execute("INSERT INTO users (first_name) VALUES (\'" + first_name + "\')")
     conn.commit()
     cur.close()
     conn.close()
 
 
-def get_users_by_id(user_id: int):
+def get_users_by_id_0(user_id: int):
     conn = get_conn()
     cur = conn.cursor()
 
-    cur.execute("SELECT * FROM users WHERE id = " + user_id)
+    cur.execute("SELECT * FROM users WHERE id = " + str(user_id))
     
     user = cur.fetchone()
     
