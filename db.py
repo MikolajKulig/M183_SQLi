@@ -1,13 +1,19 @@
+import os
 import psycopg2
 
+
 def get_conn():
+    # Read DB password from the environment. No hard-coded default.
+    password = open('.env').read().split('=')[1].strip()
+
     return psycopg2.connect(
         dbname="m183",
         user="postgres",
-        password="mysecretpassword",
+        password=password,
         host="localhost",
-        port="5432"
+        port="5432",
     )
+
 
 def get_users():
     conn = get_conn()
@@ -16,18 +22,16 @@ def get_users():
     rows = cur.fetchall()
     cur.close()
     conn.close()
-    return [{"id": r[0], "name": r[1]} for r in rows]
+    return [{"id": r[0], "first_name": r[1]} for r in rows]
+
 
 def insert_user_0(first_name: str):
     conn = get_conn()
     cur = conn.cursor()
-
-    cur.execute(f"INSERT INTO users (first_name) VALUES (\'{first_name}\')")
-
-    conn.commit()  
+    cur.execute("INSERT INTO users (first_name) VALUES (\'" + first_name + "\')")
+    conn.commit()
     cur.close()
     conn.close()
-
 
 
 def get_users_by_id_0(user_id: int):

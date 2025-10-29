@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-
 from db import get_users, get_users_by_id_0, insert_user_0
 from gegenmassnahmen.massnahmen_2 import insert_user_2, get_users_by_id_2
 from gegenmassnahmen.massnahmen_1 import insert_user_1, get_users_by_id_1
-
 from pydantic import BaseModel
+from typing import Optional
 
 app = FastAPI()
 
@@ -27,7 +26,7 @@ def create_user(payload: UserCreate):
 
 @app.post("/users-1", status_code=201)
 def create_user_secure(payload: UserCreate):
-    insert_user_2(payload.first_name)
+    insert_user_1(payload.first_name)
     return {"first_name": payload.first_name}
 
 @app.post("/users-2", status_code=201)
