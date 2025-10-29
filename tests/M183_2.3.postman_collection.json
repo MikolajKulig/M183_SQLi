@@ -1,14 +1,14 @@
 {
 	"info": {
 		"_postman_id": "77b603e2-796c-4ebf-91e0-e31ba178ffe1",
-		"name": "M183",
+		"name": "M183_2.3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "45472527",
-		"_collection_link": "https://mikolajkulig.postman.co/workspace/Mikolaj-Kulig's-Workspace~448a3f1c-4fe6-4e22-8f89-204fabdfa448/collection/45472527-77b603e2-796c-4ebf-91e0-e31ba178ffe1?action=share&source=collection_link&creator=45472527"
+		"_collection_link": "https://mikolajkulig.postman.co/workspace/448a3f1c-4fe6-4e22-8f89-204fabdfa448/collection/45472527-77b603e2-796c-4ebf-91e0-e31ba178ffe1?action=share&source=collection_link&creator=45472527"
 	},
 	"item": [
 		{
-			"name": "SQL Injection",
+			"name": "2_SQL Injection",
 			"event": [
 				{
 					"listen": "test",
@@ -27,7 +27,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"first_name\": \"');UPDATE users SET first_name = 'Peter' WHERE first_name = 'John';--\"\r\n}",
+					"raw": "{\r\n    \"first_name\": \"');UPDATE users SET first_name = 'Peter' WHERE first_name = 'John'; --\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -35,11 +35,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8000/users",
+					"raw": "{{url}}/users",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8000",
 					"path": [
 						"users"
 					]
@@ -48,7 +47,7 @@
 			"response": []
 		},
 		{
-			"name": "Testeintrag",
+			"name": "1_Testeintrag",
 			"event": [
 				{
 					"listen": "test",
@@ -77,11 +76,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8000/users",
+					"raw": "{{url}}/users",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8000",
 					"path": [
 						"users"
 					]
@@ -90,7 +88,7 @@
 			"response": []
 		},
 		{
-			"name": "Kontrolle",
+			"name": "3_Kontrolle",
 			"event": [
 				{
 					"listen": "test",
@@ -116,17 +114,46 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/users",
+					"raw": "{{url}}/users",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8000",
 					"path": [
 						"users"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
 		}
 	]
 }
