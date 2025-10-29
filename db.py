@@ -35,3 +35,16 @@ def insert_user(first_name: str):
     conn.commit()
     cur.close()
     conn.close()
+
+
+def get_users_by_name_vulnerable(name: str):
+
+    conn = get_conn()
+    cur = conn.cursor()
+    # Vulnerable: direct string interpolation
+    query = f"SELECT id, first_name FROM users WHERE first_name = '{name}';"
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+    return [{"id": r[0], "first_name": r[1]} for r in rows]

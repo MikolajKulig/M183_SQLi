@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from db import get_users, insert_user
+from db import get_users, insert_user, get_users_by_name_vulnerable
 from pydantic import BaseModel
+from typing import Optional
 
 app = FastAPI()
 
@@ -20,6 +21,15 @@ def getUsers():
 def create_user(payload: UserCreate):
     insert_user(payload.first_name)
     return {"first_name": payload.first_name}
+
+
+@app.get("/vuln_users")
+def vuln_get_users(name: Optional[str] = ""):
+    """Vulnerable endpoint for demonstration of SQL injection (2.1 confidentiality).
+    Query parameter: name. This endpoint intentionally forwards the raw value
+    into a concatenated SQL statement (see `db.get_users_by_name_vulnerable`).
+    """
+    return get_users_by_name_vulnerable(name)
 
 
 if __name__ == "__main__":
