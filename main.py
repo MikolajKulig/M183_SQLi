@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from db import get_users, insert_user, get_users_by_name_vulnerable
+from db import get_users, get_users_by_id, insert_user, get_users_by_name_vulnerable
 from gegenmassnahmen.mittel_komplex import insert_user_secure
 from pydantic import BaseModel
 from typing import Optional
@@ -28,6 +28,9 @@ def create_user_secure(payload: UserCreate):
     insert_user_secure(payload.first_name)
     return {"first_name": payload.first_name}
 
+@app.get("/users/{user_id}")
+def get_user_by_id(user_id: str):
+    return get_users_by_id(user_id)
 
 @app.get("/vuln_users")
 def vuln_get_users(name: Optional[str] = ""):

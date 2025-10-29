@@ -48,3 +48,16 @@ def get_users_by_name_vulnerable(name: str):
     cur.close()
     conn.close()
     return [{"id": r[0], "first_name": r[1]} for r in rows]
+
+def get_users_by_id(user_id: int):
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM users WHERE id = " + user_id)
+    
+    user = cur.fetchone()
+    
+    cur.close()
+    conn.close()
+    
+    return user
