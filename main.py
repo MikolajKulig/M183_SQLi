@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from db import get_users, get_users_by_id,insert_user
+from db import get_users, get_users_by_id, insert_user, get_users_by_name_vulnerable
 from gegenmassnahmen.mittel_komplex import insert_user_secure
 from pydantic import BaseModel
+from typing import Optional
 
 app = FastAPI()
 
@@ -30,6 +31,15 @@ def create_user_secure(payload: UserCreate):
 @app.get("/users/{user_id}")
 def get_user_by_id(user_id: str):
     return get_users_by_id(user_id)
+
+@app.get("/vuln_users")
+def vuln_get_users(name: Optional[str] = ""):
+    """Vulnerable endpoint for demonstration of SQL injection (2.1 confidentiality).
+    Query parameter: name. This endpoint intentionally forwards the raw value
+    into a concatenated SQL statement (see `db.get_users_by_name_vulnerable`).
+    """
+    return get_users_by_name_vulnerable(name)
+
 
 if __name__ == "__main__":
     import uvicorn
