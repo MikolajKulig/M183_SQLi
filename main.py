@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from db import get_users, insert_user, get_users_by_name_vulnerable
+from gegenmassnahmen.mittel_komplex import insert_user_secure
 from pydantic import BaseModel
 from typing import Optional
 
@@ -20,6 +21,11 @@ def getUsers():
 @app.post("/users", status_code=201)
 def create_user(payload: UserCreate):
     insert_user(payload.first_name)
+    return {"first_name": payload.first_name}
+
+@app.post("/users-secure", status_code=201)
+def create_user_secure(payload: UserCreate):
+    insert_user_secure(payload.first_name)
     return {"first_name": payload.first_name}
 
 
