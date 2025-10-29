@@ -27,3 +27,16 @@ def insert_user(first_name: str):
     conn.commit()  
     cur.close()
     conn.close()
+
+def get_users_by_id(user_id: int):
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM users WHERE id = " + user_id)
+    
+    user = cur.fetchone()
+    
+    cur.close()
+    conn.close()
+    
+    return user

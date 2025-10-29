@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from db import get_users, insert_user
+from db import get_users, get_users_by_id,insert_user
 from gegenmassnahmen.mittel_komplex import insert_user_secure
 from pydantic import BaseModel
 
@@ -27,6 +27,9 @@ def create_user_secure(payload: UserCreate):
     insert_user_secure(payload.first_name)
     return {"first_name": payload.first_name}
 
+@app.get("/users/{user_id}")
+def get_user_by_id(user_id: str):
+    return get_users_by_id(user_id)
 
 if __name__ == "__main__":
     import uvicorn
